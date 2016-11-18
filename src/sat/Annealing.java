@@ -31,8 +31,7 @@ public class Annealing {
             int iteration = 0;
             
             do {
-                this.sat.changeState();
-                this.sat.compareBestState();
+                this.sat.changeState(this.temperature);
                 
                 iteration++;
             } while(iteration != this.equilibrium);
