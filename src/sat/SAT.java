@@ -54,8 +54,9 @@ public class SAT extends Formula {
             clause.solve();
             
             if(!clause.isSatisfied()) this.satisfied = false;
-            this.weight += clause.getWeight();
         }
+        
+        this.weight = this.calculateWeight();
         
         /* If the new state wins in comparison with the old one, the transition is made and we go straight
         * to the comparison with the best state so far. If it does not, there might still be a chance
@@ -97,5 +98,9 @@ public class SAT extends Formula {
             this.bestState.setWeight(this.weight);
             this.bestState.setValues(this.getValues());
         }
+    }
+
+    private double calculateWeight() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

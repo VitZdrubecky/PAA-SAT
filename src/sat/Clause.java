@@ -6,26 +6,24 @@ package sat;
  * @author vitason
  */
 public class Clause extends Formula {
-    private final int[] literalsPositions;
+    private final Pair[] subFormulaPositions;
     
     public Clause(boolean satisfied, double weight) {
         super(satisfied, weight);
         
-        this.literalsPositions = new int[3];
+        this.subFormulaPositions = new Pair[4];
         
-        for(int pos : this.literalsPositions) {
+        for(Pair pos : this.subFormulaPositions) {
             
         }
     }
     
     public void solve() {
-        this.setSatisfied(false);
-        this.setWeight(0);
+        this.satisfied = false;
         
-        for(int pos : this.literalsPositions) {
-            if(SAT.literals[pos].isSatisfied()) {
-                this.setSatisfied(true);
-                this.setWeight(this.weight + SAT.literals[pos].getWeight());
+        for(Pair pos : this.subFormulaPositions) {
+            if(!(pos.isNegation() ^ SAT.literals[pos.getPosition()].isSatisfied())) {
+                this.satisfied = true;
             }
         }
     }

@@ -17,10 +17,10 @@ public class Annealing {
         this.temperatureFinal = 0;
         this.equilibrium = 5;
         
-        Literal literal1 = new Literal(false, 5);
+        Literal literal1 = new Literal(false, 2);
         Literal literal2 = new Literal(false, 4);
-        Literal literal3 = new Literal(false, 6);
-        Literal literal4 = new Literal(false, 1);
+        Literal literal3 = new Literal(false, 3);
+        Literal literal4 = new Literal(false, 6);
         
         SAT.literals = new Literal[]{literal1, literal2, literal3, literal4};
         this.sat = new SAT(false, 0);
