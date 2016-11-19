@@ -15,13 +15,17 @@ public class SAT extends Formula {
     private final Clause[] clauses;
     private State bestState;
     
-    public SAT(boolean satisfied, double weight) {
+    public SAT(boolean satisfied, double weight, Pair[][] subFormulas) {
         super(satisfied, weight);
         
-        this.literalsCount = 3;
-        this.clausesCount = 3;
+        this.literalsCount = literals.length;
+        this.clausesCount = subFormulas.length;
         this.clauses = new Clause[clausesCount];
         this.bestState = new State(false, 0);
+        
+        for(int i = 0; i < clausesCount; i++) {
+            this.clauses[i] = new Clause(false, 0, subFormulas[i]);//todo default param
+        }
     }
     
     public boolean[] getValues() {

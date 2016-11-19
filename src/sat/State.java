@@ -11,9 +11,7 @@ public class State extends Formula {
     public State(boolean satisfied, double weight) {
         super(satisfied, weight);
         
-        for(boolean value : this.values) {
-            value = false;
-        }
+        this.values = new boolean[SAT.literals.length];
     }
 
     public boolean[] getValues() {

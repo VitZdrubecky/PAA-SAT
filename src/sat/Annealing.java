@@ -22,8 +22,16 @@ public class Annealing {
         Literal literal3 = new Literal(false, 3);
         Literal literal4 = new Literal(false, 6);
         
+        Pair[][] subFormulas = new Pair[6][];
+        subFormulas[0] = new Pair[]{new Pair(0, false), new Pair(2, true), new Pair(3, false)};
+        subFormulas[1] = new Pair[]{new Pair(0, true), new Pair(1 ,false), new Pair(2, true)};
+        subFormulas[2] = new Pair[]{new Pair(2, false), new Pair(3, false)};
+        subFormulas[3] = new Pair[]{new Pair(0, false), new Pair(1, false), new Pair(2, true), new Pair(3, true)};
+        subFormulas[4] = new Pair[]{new Pair(1, true), new Pair(2, false)};
+        subFormulas[5] = new Pair[]{new Pair(2, true), new Pair(3, true)};
+        
         SAT.literals = new Literal[]{literal1, literal2, literal3, literal4};
-        this.sat = new SAT(false, 0);
+        this.sat = new SAT(false, 0, subFormulas);
     }
     
     public void anneal() {
