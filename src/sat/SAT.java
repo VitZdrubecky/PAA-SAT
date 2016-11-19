@@ -12,7 +12,7 @@ public class SAT extends Formula {
     public static Literal[] literals;
     private final int literalsCount;
     private final int clausesCount;
-    private Clause[] clauses;
+    private final Clause[] clauses;
     private State bestState;
     
     public SAT(boolean satisfied, double weight) {
@@ -58,6 +58,8 @@ public class SAT extends Formula {
         
         this.weight = this.calculateWeight();
         
+        this.printCurrentState();
+        
         /* If the new state wins in comparison with the old one, the transition is made and we go straight
         * to the comparison with the best state so far. If it does not, there might still be a chance
         * to move further with some probability (but if that also fails, the previous state is restored).
@@ -101,6 +103,20 @@ public class SAT extends Formula {
     }
 
     private double calculateWeight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double newWeight = 0;
+        
+        for(Literal literal : literals) {
+            newWeight += literal.getWeight();
+        }
+        
+        return newWeight;
+    }
+    
+    public void printCurrentState() {
+        System.out.println("Satisfied: " + this.satisfied + ", weight: " + this.weight + ", values: " + this.getValues());
+    }
+    
+    public void printBestState() {
+        System.out.println("Satisfied: " + this.bestState.isSatisfied() + ", weight: " + this.bestState.getWeight() + ", values: " + this.bestState.getValues());
     }
 }

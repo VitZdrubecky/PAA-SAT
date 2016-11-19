@@ -8,8 +8,8 @@ package sat;
 public class Annealing {
     private final double COOLDOWN_CONSTANT = 0.9;
     private double temperature;
-    private double temperatureFinal;
-    private int equilibrium;
+    private final double temperatureFinal;
+    private final int equilibrium;
     private SAT sat;
     
     public Annealing() {
@@ -38,6 +38,8 @@ public class Annealing {
             
             this.cooldown();
         } while(this.temperature != this.temperatureFinal);
+        
+        this.sat.printBestState();
     }
     
     private void cooldown() {
@@ -48,6 +50,8 @@ public class Annealing {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Annealing annealing = new Annealing();
+        
+        annealing.anneal();
     }
 }
