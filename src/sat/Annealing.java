@@ -13,14 +13,14 @@ public class Annealing {
     private SAT sat;
     
     public Annealing() {
-        this.temperature = 10;
-        this.temperatureFinal = 0;
-        this.equilibrium = 5;
+        this.temperature = 5;
+        this.temperatureFinal = 0.1;    // set slightly above zero to avoid infinite limit convergence
+        this.equilibrium = 10;
         
-        Literal literal1 = new Literal(false, 2);
+        Literal literal1 = new Literal(true, 2);
         Literal literal2 = new Literal(false, 4);
-        Literal literal3 = new Literal(false, 3);
-        Literal literal4 = new Literal(false, 6);
+        Literal literal3 = new Literal(false, 1);
+        Literal literal4 = new Literal(true, 6);
         
         Pair[][] subFormulas = new Pair[6][];
         subFormulas[0] = new Pair[]{new Pair(0, false), new Pair(2, true), new Pair(3, false)};
@@ -45,7 +45,9 @@ public class Annealing {
             } while(iteration != this.equilibrium);
             
             this.cooldown();
-        } while(this.temperature != this.temperatureFinal);
+            
+            System.out.println("Temperature dropped to " + this.temperature);
+        } while(this.temperature > this.temperatureFinal);
         
         this.sat.printBestState();
     }

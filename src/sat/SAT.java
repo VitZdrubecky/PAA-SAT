@@ -53,11 +53,15 @@ public class SAT extends Formula {
         this.satisfied = true;
         this.weight = 0;
         
-        // Calculate the satisfiability and cost function
+        // Calculate the satisfiability and the cost function
         for(Clause clause : this.clauses) {
             clause.solve();
             
-            if(!clause.isSatisfied()) this.satisfied = false;
+            if(!clause.isSatisfied()) {
+                this.satisfied = false;
+                
+                break;
+            }
         }
         
         this.weight = this.calculateWeight();
@@ -110,17 +114,23 @@ public class SAT extends Formula {
         double newWeight = 0;
         
         for(Literal literal : literals) {
-            newWeight += literal.getWeight();
+            if(literal.isSatisfied()) newWeight += literal.getWeight();
         }
         
         return newWeight;
     }
     
     public void printCurrentState() {
-        System.out.println("Satisfied: " + this.satisfied + ", weight: " + this.weight + ", values: " + this.getValues());
+        String dump = "State is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and literal values:";
+        
+        for(Literal literal : literals) {
+            dump += " " + literal.isSatisfied();
+        }
+        
+        System.out.println(dump);
     }
     
     public void printBestState() {
-        System.out.println("Satisfied: " + this.bestState.isSatisfied() + ", weight: " + this.bestState.getWeight() + ", values: " + this.bestState.getValues());
+        System.out.println("Best state: " + this.bestState);
     }
 }

@@ -22,8 +22,10 @@ public class Clause extends Formula {
         this.satisfied = false;
         
         for(Pair pos : this.subFormulas) {
-            if(!(pos.isNegation() ^ SAT.literals[pos.getPosition()].isSatisfied())) {
+            if(pos.isNegation() ^ SAT.literals[pos.getPosition()].isSatisfied()) {
                 this.satisfied = true;
+                
+                break;
             }
         }
     }
