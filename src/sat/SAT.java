@@ -58,7 +58,7 @@ public class SAT extends Formula {
             }
         }
         
-        this.weight = this.calculateWeight();
+        this.weight = this.calculateTotalWeight();
         
         this.printCurrentState();
         
@@ -104,7 +104,7 @@ public class SAT extends Formula {
         }
     }
 
-    private int calculateWeight() {
+    private int calculateTotalWeight() {
         int newWeight = 0;
         
         for(Literal literal : literals) {

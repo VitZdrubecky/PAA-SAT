@@ -10,12 +10,14 @@ import java.util.Random;
 public class Loader {
     private final byte CLAUSES_TO_VARS_RATIO;
     private final int MAXIMUM_WEIGHT;
+    private final int MAXIMUM_CLAUSE_SIZE;
     private final int literalsCount;
     private final Random generator;
     
     public Loader(int literalsCount) {
         this.CLAUSES_TO_VARS_RATIO = 3;
         this.MAXIMUM_WEIGHT = 10;
+        this.MAXIMUM_CLAUSE_SIZE = literalsCount;
         this.literalsCount = literalsCount;
         this.generator = new Random();
     }
@@ -64,15 +66,16 @@ public class Loader {
         
         for(int i = 0; i < clausesCount; i++) {
             // how many pairs are gonna be present in this clause (be careful of the result being a zero)
-            int pairsCount = this.generator.nextInt(this.literalsCount - 1) + 1;
+            int pairsCount = this.generator.nextInt(this.MAXIMUM_CLAUSE_SIZE - 1) + 1;
             Pair[] pairs = new Pair[pairsCount];
+            boolean[] positionsFilled = new boolean[this.literalsCount];
             
             System.out.print("(");
                     
             for(int j = 0; j < pairsCount; j++) {
-                pairs[j] = this.createClausePair();
+                pairs[j] = this.createClausePair(positionsFilled);
                 
-                System.out.print("x" + pairs[j].getPosition());
+                System.out.print("x" + (pairs[j].getPosition() + 1));
                 if(pairs[j].isNegation()) System.out.print("'");
                 if(j < pairsCount - 1) System.out.print("+");
             }
@@ -105,8 +108,17 @@ public class Loader {
         return clauses;
     }
     
-    private Pair createClausePair() {
-        int position = this.generator.nextInt(this.literalsCount);
+    private Pair createClausePair(boolean[] positionsFilled) {
+        // the literals in a clause have to be unique, so keep on generating random positions until an empty one is found
+        int position;
+        
+        do {
+            position = this.generator.nextInt(this.literalsCount);
+        } while(positionsFilled[position]);
+        
+        // the free spot has been found - mark it as occupied
+        positionsFilled[position] = true;
+        
         boolean negation = this.generator.nextBoolean();
         
         Pair pair = new Pair(position, negation);
