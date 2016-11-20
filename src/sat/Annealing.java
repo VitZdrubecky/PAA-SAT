@@ -6,32 +6,22 @@ package sat;
  * @author vitason
  */
 public class Annealing {
+    private final int LITERALS_COUNT = 4;
     private final double COOLDOWN_CONSTANT = 0.9;
     private double temperature;
     private final double temperatureFinal;
     private final int equilibrium;
     private SAT sat;
+    private Loader loader;
     
     public Annealing() {
         this.temperature = 5;
         this.temperatureFinal = 0.1;    // set slightly above zero to avoid infinite limit convergence
         this.equilibrium = 10;
+        this.loader = new Loader(this.LITERALS_COUNT);
         
-        Literal literal1 = new Literal(true, 2);
-        Literal literal2 = new Literal(false, 4);
-        Literal literal3 = new Literal(false, 1);
-        Literal literal4 = new Literal(true, 6);
-        
-        Pair[][] subFormulas = new Pair[6][];
-        subFormulas[0] = new Pair[]{new Pair(0, false), new Pair(2, true), new Pair(3, false)};
-        subFormulas[1] = new Pair[]{new Pair(0, true), new Pair(1 ,false), new Pair(2, true)};
-        subFormulas[2] = new Pair[]{new Pair(2, false), new Pair(3, false)};
-        subFormulas[3] = new Pair[]{new Pair(0, false), new Pair(1, false), new Pair(2, true), new Pair(3, true)};
-        subFormulas[4] = new Pair[]{new Pair(1, true), new Pair(2, false)};
-        subFormulas[5] = new Pair[]{new Pair(2, true), new Pair(3, true)};
-        
-        SAT.literals = new Literal[]{literal1, literal2, literal3, literal4};
-        this.sat = new SAT(false, 0, subFormulas);
+        SAT.literals = this.loader.createLiteralsArrayHardcoded();
+        this.sat = new SAT(false, 0, this.loader.createClausesArrayHardcoded());
     }
     
     public void anneal() {

@@ -11,21 +11,15 @@ import java.util.Random;
 public class SAT extends Formula {
     public static Literal[] literals;
     private final int literalsCount;
-    private final int clausesCount;
     private final Clause[] clauses;
     private State bestState;
     
-    public SAT(boolean satisfied, double weight, Pair[][] subFormulas) {
+    public SAT(boolean satisfied, double weight, Clause[] clauses) {
         super(satisfied, weight);
         
         this.literalsCount = literals.length;
-        this.clausesCount = subFormulas.length;
-        this.clauses = new Clause[clausesCount];
+        this.clauses = clauses;
         this.bestState = new State(false, 0);
-        
-        for(int i = 0; i < clausesCount; i++) {
-            this.clauses[i] = new Clause(false, 0, subFormulas[i]);//todo default param
-        }
     }
     
     public boolean[] getValues() {
@@ -121,7 +115,7 @@ public class SAT extends Formula {
     }
     
     public void printCurrentState() {
-        String dump = "State is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and literal values:";
+        String dump = "State is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and a configuration:";
         
         for(Literal literal : literals) {
             dump += " " + literal.isSatisfied();
@@ -131,6 +125,6 @@ public class SAT extends Formula {
     }
     
     public void printBestState() {
-        System.out.println("Best state: " + this.bestState);
+        System.out.println("Best state => " + this.bestState);
     }
 }

@@ -16,7 +16,7 @@ public class State extends Formula {
 
     @Override
     public String toString() {
-        String dump = "Is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and literal values:";
+        String dump = "is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and a configuration:";
         
         for(boolean value : this.values) {
             dump += " " + value;
