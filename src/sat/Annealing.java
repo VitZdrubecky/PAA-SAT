@@ -6,19 +6,16 @@ package sat;
  * @author vitason
  */
 public class Annealing {
-    private final int LITERALS_COUNT = 4;
     private final double COOLDOWN_CONSTANT = 0.9;
+    private final double TEMPERATURE_FINAL = 0.1;   // set slightly above zero to avoid infinite limit convergence
+    private final int EQUILIBRIUM = 10;
     private double temperature;
-    private final double temperatureFinal;
-    private final int equilibrium;
     private SAT sat;
     private Loader loader;
     
     public Annealing() {
         this.temperature = 5;
-        this.temperatureFinal = 0.1;    // set slightly above zero to avoid infinite limit convergence
-        this.equilibrium = 10;
-        this.loader = new Loader(this.LITERALS_COUNT);
+        this.loader = new Loader();
         
         SAT.literals = this.loader.createLiteralsArray();
         this.sat = new SAT(false, 0, this.loader.createClausesArray());
@@ -32,12 +29,12 @@ public class Annealing {
                 this.sat.changeState(this.temperature);
                 
                 iteration++;
-            } while(iteration != this.equilibrium);
+            } while(iteration != this.EQUILIBRIUM);
             
             this.cooldown();
             
             System.out.println("Temperature dropped to " + this.temperature);
-        } while(this.temperature > this.temperatureFinal);
+        } while(this.temperature > this.TEMPERATURE_FINAL);
         
         this.sat.printBestState();
     }

@@ -9,23 +9,22 @@ import java.util.Random;
  * @author vitason
  */
 public class SAT extends Formula {
+    public static final int LITERALS_COUNT = 10;
     public static Literal[] literals;
-    private final int literalsCount;
     private final Clause[] clauses;
     private State bestState;
     
     public SAT(boolean satisfied, int weight, Clause[] clauses) {
         super(satisfied, weight);
         
-        this.literalsCount = literals.length;
         this.clauses = clauses;
         this.bestState = new State(false, 0);
     }
     
     public boolean[] getValues() {
-        boolean[] values = new boolean[this.literalsCount];
+        boolean[] values = new boolean[LITERALS_COUNT];
         
-        for(int i = 0; i < literals.length; i++) {
+        for(int i = 0; i < LITERALS_COUNT; i++) {
             values[i] = literals[i].isSatisfied();
         }
         
@@ -35,7 +34,7 @@ public class SAT extends Formula {
     public void changeState(double temperature) {
         // Generate the random literal's position
         Random generator = new Random();
-        int literalPostition = generator.nextInt(this.literalsCount);
+        int literalPostition = generator.nextInt(LITERALS_COUNT);
         
         // Save the current values
         boolean originalSatisfied = this.satisfied;
@@ -51,11 +50,7 @@ public class SAT extends Formula {
         for(Clause clause : this.clauses) {
             clause.solve();
             
-            if(!clause.isSatisfied()) {
-                this.satisfied = false;
-                
-                break;
-            }
+            if(!clause.isSatisfied()) this.satisfied = false;
         }
         
         this.weight = this.calculateTotalWeight();

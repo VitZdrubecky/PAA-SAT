@@ -11,23 +11,21 @@ public class Loader {
     private final byte CLAUSES_TO_VARS_RATIO;
     private final int MAXIMUM_WEIGHT;
     private final int MAXIMUM_CLAUSE_SIZE;
-    private final int literalsCount;
     private final Random generator;
     
-    public Loader(int literalsCount) {
+    public Loader() {
         this.CLAUSES_TO_VARS_RATIO = 3;
         this.MAXIMUM_WEIGHT = 10;
-        this.MAXIMUM_CLAUSE_SIZE = literalsCount;
-        this.literalsCount = literalsCount;
+        this.MAXIMUM_CLAUSE_SIZE = SAT.LITERALS_COUNT;
         this.generator = new Random();
     }
     
     public Literal[] createLiteralsArray() {
-        Literal[] literals = new Literal[this.literalsCount];
+        Literal[] literals = new Literal[SAT.LITERALS_COUNT];
         
         System.out.print("Created literals => ");
         
-        for(int i = 0; i < this.literalsCount; i++) {
+        for(int i = 0; i < SAT.LITERALS_COUNT; i++) {
             literals[i] = this.createLiteral();
             
             System.out.print("position: " + i + ", value: " + literals[i].isSatisfied() + ", weight: " + literals[i].getWeight() + " | ");
@@ -59,7 +57,7 @@ public class Loader {
     }
     
     public Clause[] createClausesArray() {
-        int clausesCount = this.CLAUSES_TO_VARS_RATIO * this.literalsCount;
+        int clausesCount = this.CLAUSES_TO_VARS_RATIO * SAT.LITERALS_COUNT;
         Clause[] clauses = new Clause[clausesCount];
         
         System.out.print("Generated formula => ");
@@ -68,7 +66,7 @@ public class Loader {
             // how many pairs are gonna be present in this clause (be careful of the result being a zero)
             int pairsCount = this.generator.nextInt(this.MAXIMUM_CLAUSE_SIZE - 1) + 1;
             Pair[] pairs = new Pair[pairsCount];
-            boolean[] positionsFilled = new boolean[this.literalsCount];
+            boolean[] positionsFilled = new boolean[SAT.LITERALS_COUNT];
             
             System.out.print("(");
                     
@@ -113,7 +111,7 @@ public class Loader {
         int position;
         
         do {
-            position = this.generator.nextInt(this.literalsCount);
+            position = this.generator.nextInt(SAT.LITERALS_COUNT);
         } while(positionsFilled[position]);
         
         // the free spot has been found - mark it as occupied
