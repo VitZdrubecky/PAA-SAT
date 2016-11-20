@@ -7,9 +7,9 @@ package sat;
  */
 public abstract class Formula {
     protected boolean satisfied;
-    protected double weight;
+    protected int weight;
     
-    public Formula(boolean satisfied, double weight) {
+    public Formula(boolean satisfied, int weight) {
         this.satisfied = satisfied;
         this.weight = weight;
     }
@@ -18,7 +18,7 @@ public abstract class Formula {
         return this.satisfied;
     }
     
-    public double getWeight() {
+    public int getWeight() {
         return this.weight;
     }
 
@@ -26,7 +26,7 @@ public abstract class Formula {
         this.satisfied = satisfied;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 }

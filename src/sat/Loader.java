@@ -9,14 +9,12 @@ import java.util.Random;
  */
 public class Loader {
     private final byte CLAUSES_TO_VARS_RATIO;
-    private final double MINIMUM_WEIGHT;
-    private final double MAXIMUM_WEIGHT;
+    private final int MAXIMUM_WEIGHT;
     private final int literalsCount;
     private final Random generator;
     
     public Loader(int literalsCount) {
         this.CLAUSES_TO_VARS_RATIO = 3;
-        this.MINIMUM_WEIGHT = 1;
         this.MAXIMUM_WEIGHT = 10;
         this.literalsCount = literalsCount;
         this.generator = new Random();
@@ -25,7 +23,7 @@ public class Loader {
     public Literal[] createLiteralsArray() {
         Literal[] literals = new Literal[this.literalsCount];
         
-        System.out.print("Created literals: ");
+        System.out.print("Created literals => ");
         
         for(int i = 0; i < this.literalsCount; i++) {
             literals[i] = this.createLiteral();
@@ -51,7 +49,7 @@ public class Loader {
     
     private Literal createLiteral() {
         boolean satisfied = this.generator.nextBoolean();
-        double weight = this.MINIMUM_WEIGHT + (this.MAXIMUM_WEIGHT - this.MINIMUM_WEIGHT) * this.generator.nextDouble();
+        int weight = this.generator.nextInt(this.MAXIMUM_WEIGHT - 1) + 1;
         
         Literal literal = new Literal(satisfied, weight);
         
@@ -62,17 +60,29 @@ public class Loader {
         int clausesCount = this.CLAUSES_TO_VARS_RATIO * this.literalsCount;
         Clause[] clauses = new Clause[clausesCount];
         
+        System.out.print("Generated formula => ");
+        
         for(int i = 0; i < clausesCount; i++) {
             // how many pairs are gonna be present in this clause (be careful of the result being a zero)
             int pairsCount = this.generator.nextInt(this.literalsCount - 1) + 1;
             Pair[] pairs = new Pair[pairsCount];
             
-            for(Pair pair : pairs) {
-                pair = this.createClausePair();
+            System.out.print("(");
+                    
+            for(int j = 0; j < pairsCount; j++) {
+                pairs[j] = this.createClausePair();
+                
+                System.out.print("x" + pairs[j].getPosition());
+                if(pairs[j].isNegation()) System.out.print("'");
+                if(j < pairsCount - 1) System.out.print("+");
             }
+            
+            System.out.print(")");
             
             clauses[i] = new Clause(false, 0, pairs);
         }
+        
+        System.out.println();
         
         return clauses;
     }

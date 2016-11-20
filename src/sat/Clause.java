@@ -8,7 +8,7 @@ package sat;
 public class Clause extends Formula {
     private final Pair[] subFormulas;
     
-    public Clause(boolean satisfied, double weight, Pair[] subFormulas) {
+    public Clause(boolean satisfied, int weight, Pair[] subFormulas) {
         super(satisfied, weight);
         
         this.subFormulas = new Pair[subFormulas.length];

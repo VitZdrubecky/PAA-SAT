@@ -8,7 +8,7 @@ package sat;
 public class State extends Formula {
     private boolean[] values;
     
-    public State(boolean satisfied, double weight) {
+    public State(boolean satisfied, int weight) {
         super(satisfied, weight);
         
         this.values = new boolean[SAT.literals.length];

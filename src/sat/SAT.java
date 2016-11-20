@@ -14,7 +14,7 @@ public class SAT extends Formula {
     private final Clause[] clauses;
     private State bestState;
     
-    public SAT(boolean satisfied, double weight, Clause[] clauses) {
+    public SAT(boolean satisfied, int weight, Clause[] clauses) {
         super(satisfied, weight);
         
         this.literalsCount = literals.length;
@@ -39,7 +39,7 @@ public class SAT extends Formula {
         
         // Save the current values
         boolean originalSatisfied = this.satisfied;
-        double originalWeight = this.weight;
+        int originalWeight = this.weight;
         
         literals[literalPostition].switchValue();
         
@@ -70,7 +70,7 @@ public class SAT extends Formula {
             this.saveBestState();
         }
         else {
-            double delta = this.weight - originalWeight;
+            int delta = this.weight - originalWeight;
             double random = generator.nextDouble();
             
             if(random < exp(delta / temperature))
@@ -82,7 +82,7 @@ public class SAT extends Formula {
         }
     }
     
-    private boolean compareCurrentState(boolean compareSatisfied, double compareWeight) {
+    private boolean compareCurrentState(boolean compareSatisfied, int compareWeight) {
         /* There are two possible cases when the current state is considered superior to the best one yet:
         * either the current formula is satisfied and the best one so far is not / has a lower weight,
         * or both the current and the best are not satisfied, but the current has a higher weight.
@@ -104,8 +104,8 @@ public class SAT extends Formula {
         }
     }
 
-    private double calculateWeight() {
-        double newWeight = 0;
+    private int calculateWeight() {
+        int newWeight = 0;
         
         for(Literal literal : literals) {
             if(literal.isSatisfied()) newWeight += literal.getWeight();

@@ -20,8 +20,8 @@ public class Annealing {
         this.equilibrium = 10;
         this.loader = new Loader(this.LITERALS_COUNT);
         
-        SAT.literals = this.loader.createLiteralsArrayHardcoded();
-        this.sat = new SAT(false, 0, this.loader.createClausesArrayHardcoded());
+        SAT.literals = this.loader.createLiteralsArray();
+        this.sat = new SAT(false, 0, this.loader.createClausesArray());
     }
     
     public void anneal() {
