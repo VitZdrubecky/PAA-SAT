@@ -13,12 +13,14 @@ public class SAT extends Formula {
     public static Literal[] literals;
     private final Clause[] clauses;
     private State bestState;
+    private int satisfiedClauses;
     
     public SAT(boolean satisfied, int weight, Clause[] clauses) {
         super(satisfied, weight);
         
         this.clauses = clauses;
         this.bestState = new State(false, 0);
+        this.satisfiedClauses = 0;
     }
     
     public boolean[] getValues() {
@@ -38,21 +40,26 @@ public class SAT extends Formula {
         
         // Save the current values
         boolean originalSatisfied = this.satisfied;
+        int originalSatisfiedClauses = this.satisfiedClauses;
         int originalWeight = this.weight;
         
         literals[literalPostition].switchValue();
         
         // Reset the metrics
-        this.satisfied = true;
+        this.satisfied = false;
         this.weight = 0;
+        this.satisfiedClauses = 0;
         
-        // Calculate the satisfiability and the cost function
+        // Calculate the satisfiability, firstly for all the clauses and then for the whole formula
         for(Clause clause : this.clauses) {
             clause.solve();
             
-            if(!clause.isSatisfied()) this.satisfied = false;
+            if(clause.isSatisfied()) this.satisfiedClauses++;
         }
         
+        if(this.satisfiedClauses == this.clauses.length) this.satisfied = true;
+        
+        // The cost function which serves as an additional metric in case two configurations satisfy the formula
         this.weight = this.calculateTotalWeight();
         
         this.printCurrentState();
@@ -61,7 +68,7 @@ public class SAT extends Formula {
         * to the comparison with the best state so far. If it does not, there might still be a chance
         * to move further with some probability (but if that also fails, the previous state is restored).
         */
-        if(this.compareCurrentState(originalSatisfied, originalWeight)) {
+        if(this.compareCurrentState(originalSatisfied, originalSatisfiedClauses, originalWeight)) {
             this.saveBestState();
         }
         else {
@@ -77,23 +84,19 @@ public class SAT extends Formula {
         }
     }
     
-    private boolean compareCurrentState(boolean compareSatisfied, int compareWeight) {
-        /* There are two possible cases when the current state is considered superior to the best one yet:
-        * either the current formula is satisfied and the best one so far is not / has a lower weight,
-        * or both the current and the best are not satisfied, but the current has a higher weight.
-        */
-        if((this.satisfied && (!compareSatisfied || this.weight > compareWeight)) ||
-                (!this.satisfied && !compareSatisfied && this.weight > compareWeight)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    private boolean compareCurrentState(boolean compareSatisfied, int compareSatisfiedClauses, int compareWeight) {
+        /* There are two possible cases when the current state is considered superior to the compared one:
+         * either the current formula is satisfied and the other one is not / has a lower number of satisfied clauses / has the same number of aforementioned clauses but a lower weight,
+         * or both the current and the compared are not satisfied but all of the following conditions hold.
+         */
+        return (this.satisfied && (!compareSatisfied || this.satisfiedClauses > compareSatisfiedClauses || (this.satisfiedClauses == compareSatisfiedClauses && this.weight > compareWeight))) ||
+                (!this.satisfied && !compareSatisfied && (this.satisfiedClauses > compareSatisfiedClauses || (this.satisfiedClauses == compareSatisfiedClauses && this.weight > compareWeight)));
     }
     
     public void saveBestState() {
-        if(this.compareCurrentState(this.bestState.isSatisfied(), this.bestState.getWeight())) {
+        if(this.compareCurrentState(this.bestState.isSatisfied(), this.bestState.getSatisfiedClauses(), this.bestState.getWeight())) {
             this.bestState.setSatisfied(this.satisfied);
+            this.bestState.setSatisfiedClauses(this.satisfiedClauses);
             this.bestState.setWeight(this.weight);
             this.bestState.setValues(this.getValues());
         }
@@ -110,7 +113,7 @@ public class SAT extends Formula {
     }
     
     public void printCurrentState() {
-        String dump = "State is satisfied: " + this.satisfied + " with a weight: " + this.weight + " and a configuration:";
+        String dump = "State is satisfied: " + this.satisfied + " with a number of satisfied clauses: "+ this.satisfiedClauses + ", a weight: " + this.weight + " and a configuration:";
         
         for(Literal literal : literals) {
             dump += " " + literal.isSatisfied();
