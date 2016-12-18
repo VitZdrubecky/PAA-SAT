@@ -22,14 +22,18 @@ public class Annealing {
     }
     
     public void anneal() {
+        int iteration = 0;
+        
         do {
-            int iteration = 0;
+            int step = 0;
             
             do {
                 this.sat.changeState(this.temperature);
+                this.sat.logCurrentState(iteration);
                 
+                step++;
                 iteration++;
-            } while(iteration != this.EQUILIBRIUM);
+            } while(step != this.EQUILIBRIUM);
             
             this.cooldown();
             

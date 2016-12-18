@@ -14,6 +14,7 @@ public class SAT extends Formula {
     private final Clause[] clauses;
     private State bestState;
     private int satisfiedClauses;
+    private final Logger logger;
     
     public SAT(boolean satisfied, int weight, Clause[] clauses) {
         super(satisfied, weight);
@@ -21,6 +22,7 @@ public class SAT extends Formula {
         this.clauses = clauses;
         this.bestState = new State(false, 0);
         this.satisfiedClauses = 0;
+        this.logger = new Logger();
     }
     
     public boolean[] getValues() {
@@ -124,5 +126,9 @@ public class SAT extends Formula {
     
     public void printBestState() {
         System.out.println("Best state => " + this.bestState);
+    }
+    
+    public void logCurrentState(int iteration) {
+        this.logger.writeState(iteration, this.satisfiedClauses);
     }
 }
