@@ -12,6 +12,7 @@ public class Annealing {
     private double temperature;
     private SAT sat;
     private Loader loader;
+    public static final Logger logger = new Logger();
     
     public Annealing() {
         this.temperature = 5;
@@ -41,6 +42,7 @@ public class Annealing {
         } while(this.temperature > this.TEMPERATURE_FINAL);
         
         this.sat.printBestState();
+        logger.createPlot();
     }
     
     private void cooldown() {

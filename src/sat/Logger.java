@@ -34,4 +34,12 @@ public class Logger {
             }
         }
     }
+    
+    public void createPlot() {
+        try{
+            Runtime.getRuntime().exec("/usr/local/bin/gnuplot log/generate.txt");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
