@@ -23,17 +23,14 @@ public class Annealing {
     }
     
     public void anneal() {
-        int iteration = 0;
-        
         do {
             int step = 0;
             
             do {
                 this.sat.changeState(this.temperature);
-                this.sat.logCurrentState(iteration);
+                this.sat.logCurrentState();
                 
                 step++;
-                iteration++;
             } while(step != this.EQUILIBRIUM);
             
             this.cooldown();
@@ -42,6 +39,7 @@ public class Annealing {
         } while(this.temperature > this.TEMPERATURE_FINAL);
         
         this.sat.printBestState();
+        logger.writeData();
         logger.createPlot();
     }
     

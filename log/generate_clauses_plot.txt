@@ -1,0 +1,16 @@
+#  data_clauses.txt
+#
+set term svg
+set output "log/plot_clauses.svg"
+#
+#  Fields in each record are separated by commas.
+#
+set datafile separator ","
+
+set title "Dependency of the number of satisfied clauses on the number of iterations"
+set xlabel "Number of iterations"
+set ylabel "Number of satisfied clauses"
+set grid
+set timestamp
+plot 'log/data_clauses.txt' using 1:2
+quit

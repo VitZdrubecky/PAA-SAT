@@ -5,6 +5,7 @@
         <group>
             <file>file:/Users/vitason/NetBeansProjects/SAT/src/sat/SAT.java</file>
             <file>file:/Users/vitason/NetBeansProjects/SAT/src/sat/State.java</file>
+            <file>file:/Users/vitason/NetBeansProjects/SAT/src/sat/Logger.java</file>
             <file>file:/Users/vitason/NetBeansProjects/SAT/src/sat/Loader.java</file>
             <file>file:/Users/vitason/NetBeansProjects/SAT/src/sat/Annealing.java</file>
         </group>

@@ -126,7 +126,7 @@ public class SAT extends Formula {
         System.out.println("Best state => " + this.bestState);
     }
     
-    public void logCurrentState(int iteration) {
-        Annealing.logger.writeState(iteration, this.satisfiedClauses);
+    public void logCurrentState() {
+        Annealing.logger.saveState(this.satisfied, this.satisfiedClauses);
     }
 }
