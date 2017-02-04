@@ -6,22 +6,34 @@ import java.util.ArrayList;
 
 /**
  *
- * @author vitason
+ * @author Vit Zdrubecky
  */
 public class Logger {
     private ArrayList satisfiedArray;
     private ArrayList clausesArray;
     
+    /**
+     * Constructor
+     */
     public Logger() {
         this.satisfiedArray = new ArrayList();
         this.clausesArray = new ArrayList();
     }
     
+    /**
+     * Saves the arguments to the correct arraylists
+     * 
+     * @param satisfied Whether the state is satisfied
+     * @param clauses The number of satisfied clauses
+     */
     public void saveState(boolean satisfied, int clauses) {
-        this.satisfiedArray.add(satisfied);
+        this.satisfiedArray.add(satisfied ? 1 : 0);
         this.clausesArray.add(clauses);
     }
     
+    /**
+     * Writes all the data to the files
+     */
     public void writeData() {
         OutputStream satisfiedStream = null;
         OutputStream clausesStream = null;
@@ -57,7 +69,7 @@ public class Logger {
             clausesStream.close();
         } catch(IOException e) {
             System.out.println("An exception has been thrown during the state's logging process.");
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         } finally {
             // if something went wrong, close any open streams
             try {
@@ -70,17 +82,20 @@ public class Logger {
                 }
             } catch(IOException e) {
                 System.out.println("An exception has been thrown during the stream closing.");
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
     }
     
+    /**
+     * Call gnuplot to create diagrams
+     */
     public void createPlot() {
         try{
             Runtime.getRuntime().exec("/usr/local/bin/gnuplot log/generate_satisfied_plot.txt");
             Runtime.getRuntime().exec("/usr/local/bin/gnuplot log/generate_clauses_plot.txt");
         } catch(IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 }

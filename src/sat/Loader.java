@@ -4,22 +4,28 @@ package sat;
 import java.util.Random;
 
 /**
- *
- * @author vitason
+ * Loads the literals and clauses used for computations (either hardcoded or randomly generated)
+ * 
+ * @author Vit Zdrubecky
  */
 public class Loader {
-    private final byte CLAUSES_TO_VARS_RATIO;
-    private final int MAXIMUM_WEIGHT;
-    private final int MAXIMUM_CLAUSE_SIZE;
+    private final byte CLAUSES_TO_VARS_RATIO = 5;
+    private final int MAXIMUM_WEIGHT = 100;
+    private final int MAXIMUM_CLAUSE_SIZE = SAT.LITERALS_COUNT / 5;
     private final Random generator;
     
+    /**
+     * Constructor
+     */
     public Loader() {
-        this.CLAUSES_TO_VARS_RATIO = 3;
-        this.MAXIMUM_WEIGHT = 10;
-        this.MAXIMUM_CLAUSE_SIZE = SAT.LITERALS_COUNT;
         this.generator = new Random();
     }
     
+    /**
+     * Creates the literals one by one using the dedicated method
+     * 
+     * @return Array of literals
+     */
     public Literal[] createLiteralsArray() {
         Literal[] literals = new Literal[SAT.LITERALS_COUNT];
         
@@ -36,6 +42,11 @@ public class Loader {
         return literals;
     }
     
+    /**
+     * Default testing array of four literals, used as a measure of the initial program's functions
+     * 
+     * @return Array of literals
+     */
     public Literal[] createLiteralsArrayHardcoded() {
         Literal[] literals = new Literal[]{
             new Literal(true, 2),
@@ -47,6 +58,11 @@ public class Loader {
         return literals;
     }
     
+    /**
+     * Randomly creates one literal object
+     * 
+     * @return Literal
+     */
     private Literal createLiteral() {
         boolean satisfied = this.generator.nextBoolean();
         int weight = this.generator.nextInt(this.MAXIMUM_WEIGHT - 1) + 1;
@@ -56,6 +72,11 @@ public class Loader {
         return literal;
     }
     
+    /**
+     * Creates an array of clauses based on the arrays of pairs
+     * 
+     * @return Array of clauses
+     */
     public Clause[] createClausesArray() {
         int clausesCount = this.CLAUSES_TO_VARS_RATIO * SAT.LITERALS_COUNT;
         Clause[] clauses = new Clause[clausesCount];
@@ -88,6 +109,11 @@ public class Loader {
         return clauses;
     }
     
+    /**
+     * Default hardcoded clauses for testing purposes
+     * 
+     * @return Array of clauses
+     */
     public Clause[] createClausesArrayHardcoded() {
         Clause[] clauses = new Clause[6];
         
@@ -106,6 +132,13 @@ public class Loader {
         return clauses;
     }
     
+    /**
+     * Creates one pair for a clause
+     * 
+     * @param positionsFilled An array of currently filled literal positions so that it can't be created again
+     * 
+     * @return A pair of a literal's position and negation parameters
+     */
     private Pair createClausePair(boolean[] positionsFilled) {
         // the literals in a clause have to be unique, so keep on generating random positions until an empty one is found
         int position;

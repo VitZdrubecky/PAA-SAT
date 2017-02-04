@@ -10,7 +10,11 @@ set datafile separator ","
 set title "Dependency of the satisfied state on the number of iterations"
 set xlabel "Number of iterations"
 set ylabel "State satisfied"
+
+set yr [0:1]
+
 set grid
-set timestamp
+set key off 
+
 plot 'log/data_satisfied.txt' using 1:2
 quit

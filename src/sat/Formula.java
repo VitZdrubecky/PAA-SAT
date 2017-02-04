@@ -2,8 +2,9 @@
 package sat;
 
 /**
- *
- * @author vitason
+ * An abstract formula encompassing the core variables and getters / setters
+ * 
+ * @author Vit Zdrubecky
  */
 public abstract class Formula {
     protected boolean satisfied;

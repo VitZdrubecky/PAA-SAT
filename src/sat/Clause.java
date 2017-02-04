@@ -2,12 +2,20 @@
 package sat;
 
 /**
- *
- * @author vitason
+ * A clause with all its subformulas
+ * 
+ * @author Vit Zdrubecky
  */
 public class Clause extends Formula {
     private final Pair[] subFormulas;
     
+    /**
+     * Constructor
+     * 
+     * @param satisfied Initial satisfied flag
+     * @param weight Default weight
+     * @param subFormulas Array of pairs
+     */
     public Clause(boolean satisfied, int weight, Pair[] subFormulas) {
         super(satisfied, weight);
         
@@ -18,10 +26,14 @@ public class Clause extends Formula {
         }
     }
     
+    /**
+     * Checks whether the clause is satisfied or not
+     */
     public void solve() {
         this.satisfied = false;
         
         for(Pair pos : this.subFormulas) {
+            // just one positive literal is sufficient for the clause to be satisfied
             if(pos.isNegation() ^ SAT.literals[pos.getPosition()].isSatisfied()) {
                 this.satisfied = true;
                 

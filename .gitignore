@@ -1,1 +1,7 @@
 /build/
+log/data_clauses.txt
+log/data_satisfied.txt
+log/plot_clauses.svg
+log/plot_satisfied.svg
+experiments
+nbproject

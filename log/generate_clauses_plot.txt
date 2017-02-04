@@ -10,7 +10,9 @@ set datafile separator ","
 set title "Dependency of the number of satisfied clauses on the number of iterations"
 set xlabel "Number of iterations"
 set ylabel "Number of satisfied clauses"
+
 set grid
-set timestamp
-plot 'log/data_clauses.txt' using 1:2
+set key off
+
+plot 'log/data_clauses.txt' with points pointtype 1
 quit
