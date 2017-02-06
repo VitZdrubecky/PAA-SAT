@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Vit Zdrubecky
  */
 public class Loader {
-    private final byte CLAUSES_TO_VARS_RATIO = 5;
+    private final byte CLAUSES_TO_VARS_RATIO = 3;
     private final int MAXIMUM_WEIGHT = 100;
     private final int MAXIMUM_CLAUSE_SIZE = SAT.LITERALS_COUNT / 5;
     private final Random generator;

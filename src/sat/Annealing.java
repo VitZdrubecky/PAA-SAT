@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
  * @author Vit Zdrubecky
  */
 public class Annealing {
-    private final double COOLDOWN_CONSTANT = 0.9;
-    private final double TEMPERATURE_INITIAL = 100;
-    private final double TEMPERATURE_FINAL = 10;   // set slightly above zero to avoid infinite limit convergence
-    private final int EQUILIBRIUM = 50;
+    private final double COOLDOWN_CONSTANT = 0.92;
+    private final double TEMPERATURE_INITIAL = 500;
+    private final double TEMPERATURE_FINAL = 1;   // set slightly above zero to avoid infinite limit convergence
+    private final int EQUILIBRIUM = 150;
     private double temperature;
     private SAT sat;
     private Loader loader;
@@ -55,7 +55,7 @@ public class Annealing {
         
         this.sat.printBestState();
         
-        System.out.println("Total annealing time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime));
+        System.out.println("Total annealing time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + " ms");
         
         logger.writeData();
         logger.createPlot();

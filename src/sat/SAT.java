@@ -100,29 +100,33 @@ public class SAT extends Formula {
                 this.satisfied = originalSatisfied;
                 this.satisfiedClauses = originalSatisfiedClauses;
                 this.weight = originalWeight;
-                System.out.println("Don't move to the new state.");
+                System.out.println("Don't move to the new, 'worse' state.");
+            }
+            else
+            {
+                System.out.println("Move to the 'worse' state anyway.");
             }
         }
     }
     
     /**
-     * Compare the current state's parameters with the given ones
+     * Compare the current state's parameters with the given ones.
+     * 
+     * There are two possible cases when the current state is considered superior to the compared one:
+     * either the current formula is satisfied and the other one is not / has a lower total weight,
+     * or both the current and the compared formulas are not satisfied - in that case a cascade of conditions is used to prefer one over the other.
      * 
      * @param compareSatisfied Whether the compared state is satisfied
      * @param compareSatisfiedClauses The number of compared state's satisfied clauses
      * @param compareWeight The compared state's weight
      */
     private boolean compareCurrentState(boolean compareSatisfied, int compareSatisfiedClauses, int compareWeight) {
-        /* There are two possible cases when the current state is considered superior to the compared one:
-         * either the current formula is satisfied and the other one is not / has a lower total weight,
-         * or both the current and the compared formulas are not satisfied - in that case a cascade of conditions is used to prefer one over the other
-         */
         return (this.satisfied && (!compareSatisfied || this.weight > compareWeight)) ||
                 (!this.satisfied && !compareSatisfied && (this.satisfiedClauses > compareSatisfiedClauses || (this.satisfiedClauses == compareSatisfiedClauses && this.weight > compareWeight)));
     }
     
     /**
-     * Compares the current state with the best and possibly overwrite it
+     * Compares the current state with the best and overwrites it if possible
      */
     public void saveBestState() {
         if(this.compareCurrentState(this.bestState.isSatisfied(), this.bestState.getSatisfiedClauses(), this.bestState.getWeight())) {

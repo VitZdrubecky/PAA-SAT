@@ -5,3 +5,5 @@ log/plot_clauses.svg
 log/plot_satisfied.svg
 experiments
 nbproject
+
+*.rtf
